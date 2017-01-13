@@ -44,7 +44,7 @@ Returns a render function to be called within `patch`.
 With [npm](https://npmjs.org/) installed, run
 
 ```
-$ npm install incremental-hyperscript
+$ npm install --save incremental-hyperscript incremental-dom
 ```
 
 ## Acknowledgments
