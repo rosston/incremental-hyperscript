@@ -1,0 +1,11 @@
+{
+  "name": "incremental-hyperscript",
+  "version": "0.1.0",
+  "description": "A hyperscript-like interface for Incremental DOM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ross Brandes",
+  "license": "Apache-2.0"
+}
