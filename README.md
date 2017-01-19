@@ -24,11 +24,9 @@ patch(myElement, render(otherData))
 
 ## API
 
-### `h(selector, [properties], [children])`
+### `h(tagName, [properties], [children])`
 
-* `selector` (required) - A selector-like string (e.g.,
-  `span.foo.bar#some-id`). Class names and ids will be parsed from the string
-  and set on the element.
+* `tagName` (required) - A string representing a tag name (e.g., `span`).
 * `properties` (optional) - An object specifying properties (and their
   corresponding values) to be set on the element.
 * `children` (optional) - A string, function, or array (of strings and/or

@@ -1,0 +1,4 @@
+.DS_Store
+.vimrc
+dist
+node_modules
