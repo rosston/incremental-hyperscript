@@ -21,7 +21,177 @@ describe('h()', function () {
   })
 
   it('should return a function', function () {
-    expect(h()).to.be.a('function')
+    expect(h('div')).to.be.a('function')
+  })
+
+  it('should support simple components', function () {
+    function SpecialContainer (child) {
+      return h(
+        'section',
+        {id: 'special-container'},
+        child
+      )
+    }
+    function Button (buttonText) {
+      return h(
+        'button',
+        {id: 'regular-button'},
+        buttonText
+      )
+    }
+    function render () {
+      return h(
+        'div',
+        null,
+        SpecialContainer(
+          Button('zort')
+        )
+      )
+    }
+
+    patch(container, render())
+
+    var el = container.childNodes[0]
+    var childEl = el.childNodes[0]
+    var descendentEl = childEl.childNodes[0]
+
+    expect(el.tagName).to.equal('DIV')
+
+    expect(childEl.tagName).to.equal('SECTION')
+    expect(childEl.getAttribute('id')).to.equal('special-container')
+
+    expect(descendentEl.tagName).to.equal('BUTTON')
+    expect(descendentEl.getAttribute('id')).to.equal('regular-button')
+    expect(descendentEl.textContent).to.equal('zort')
+  })
+
+  it('should support passing a component as tag', function () {
+    function SpecialContainer (props, children) {
+      return h(
+        'section',
+        {id: 'special-container', class: props['class']},
+        children
+      )
+    }
+    function Button (props, children) {
+      return h(
+        'button',
+        {id: 'regular-button'},
+        props.text
+      )
+    }
+    function render () {
+      return h(
+        'div',
+        null,
+        h(
+          SpecialContainer,
+          {class: 'my-best-special-container'},
+          h(
+            Button,
+            {text: 'zort'}
+          )
+        )
+      )
+    }
+
+    patch(container, render())
+
+    var el = container.childNodes[0]
+    var childEl = el.childNodes[0]
+    var descendentEl = childEl.childNodes[0]
+
+    expect(el.tagName).to.equal('DIV')
+
+    expect(childEl.tagName).to.equal('SECTION')
+    expect(childEl.getAttribute('id')).to.equal('special-container')
+    expect(childEl.getAttribute('class')).to.equal('my-best-special-container')
+
+    expect(descendentEl.tagName).to.equal('BUTTON')
+    expect(descendentEl.getAttribute('id')).to.equal('regular-button')
+    expect(descendentEl.textContent).to.equal('zort')
+  })
+
+  it('should support passing multiple children when providing a component as tag', function () {
+    function SpecialContainer (props, children) {
+      return h(
+        'section',
+        {id: 'special-container', class: props['class']},
+        children
+      )
+    }
+    function AnotherContainer (props, children) {
+      return h(
+        'section',
+        {id: 'another-container'},
+        children
+      )
+    }
+    function Button (props, children) {
+      return h(
+        'button',
+        {id: 'regular-button'},
+        props.text
+      )
+    }
+    function render () {
+      return h(
+        'div',
+        null,
+        h(
+          SpecialContainer,
+          {class: 'my-best-special-container'},
+          h(
+            AnotherContainer,
+            null,
+            [
+              h(
+                'div',
+                null,
+                'poit'
+              ),
+              h(
+                'div',
+                null,
+                'troz'
+              )
+            ]
+          ),
+          h(
+            Button,
+            {text: 'zort'}
+          )
+        )
+      )
+    }
+
+    patch(container, render())
+
+    var el = container.childNodes[0]
+    var specialContainer = el.childNodes[0]
+    var anotherContainer = specialContainer.childNodes[0]
+    var poit = anotherContainer.childNodes[0]
+    var troz = anotherContainer.childNodes[1]
+    var button = specialContainer.childNodes[1]
+
+    expect(el.tagName).to.equal('DIV')
+
+    expect(specialContainer.tagName).to.equal('SECTION')
+    expect(specialContainer.getAttribute('id')).to.equal('special-container')
+    expect(specialContainer.getAttribute('class')).to.equal('my-best-special-container')
+
+    expect(anotherContainer.tagName).to.equal('SECTION')
+    expect(anotherContainer.getAttribute('id')).to.equal('another-container')
+
+    expect(poit.tagName).to.equal('DIV')
+    expect(poit.textContent).to.equal('poit')
+
+    expect(troz.tagName).to.equal('DIV')
+    expect(troz.textContent).to.equal('troz')
+
+    expect(button.tagName).to.equal('BUTTON')
+    expect(button.getAttribute('id')).to.equal('regular-button')
+    expect(button.textContent).to.equal('zort')
   })
 
   describe('returned function', function () {
@@ -246,47 +416,6 @@ describe('h()', function () {
 
       expect(childEl4.textContent).to.equal('Text')
       expect(childEl4).to.be.a('Text')
-    })
-
-    it('should support simple components', function () {
-      function SpecialContainer (child) {
-        return h(
-          'section',
-          {id: 'special-container'},
-          child
-        )
-      }
-      function Button (buttonText) {
-        return h(
-          'button',
-          {id: 'regular-button'},
-          buttonText
-        )
-      }
-      function render () {
-        return h(
-          'div',
-          null,
-          SpecialContainer(
-            Button('zort')
-          )
-        )
-      }
-
-      patch(container, render())
-
-      var el = container.childNodes[0]
-      var childEl = el.childNodes[0]
-      var descendentEl = childEl.childNodes[0]
-
-      expect(el.tagName).to.equal('DIV')
-
-      expect(childEl.tagName).to.equal('SECTION')
-      expect(childEl.getAttribute('id')).to.equal('special-container')
-
-      expect(descendentEl.tagName).to.equal('BUTTON')
-      expect(descendentEl.getAttribute('id')).to.equal('regular-button')
-      expect(descendentEl.textContent).to.equal('zort')
     })
   })
 })
