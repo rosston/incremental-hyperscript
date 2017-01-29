@@ -1,12 +1,17 @@
 {
   "name": "incremental-hyperscript",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A hyperscript-like interface for Incremental DOM",
-  "repository" : {
+  "repository": {
     "url": "https://github.com/rosston/incremental-hyperscript.git",
     "type": "git"
   },
-  "keywords": ["incremental-dom", "virtual", "dom", "browser"],
+  "keywords": [
+    "incremental-dom",
+    "virtual",
+    "dom",
+    "browser"
+  ],
   "main": "dist/incremental-hyperscript.js",
   "module": "src/incremental-hyperscript.js",
   "scripts": {
