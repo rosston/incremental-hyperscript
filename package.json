@@ -5,7 +5,7 @@
   "main": "dist/incremental-hyperscript.js",
   "module": "src/incremental-hyperscript.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && webpack --env=min",
     "test": "standard && karma start"
   },
   "author": "Ross Brandes",
