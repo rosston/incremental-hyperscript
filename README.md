@@ -7,7 +7,7 @@
 Use `h` to create render functions, and call them within `patch`:
 
 ```js
-var h = require('incremental-hyperscript')
+var h = require('incremental-hyperscript').h
 var patch = require('incremental-dom').patch
 
 function render(data) {
